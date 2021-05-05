@@ -16,7 +16,9 @@ Hospital location, and beds information is being collected and created by [covid
 | Andhra Pradesh      | [http://dashboard.covid19.ap.gov.in/](http://dashboard.covid19.ap.gov.in/) | [https://api.npoint.io/4594de00c3f1d76a08ec](https://api.npoint.io/4594de00c3f1d76a08ec)|
 
 Please feel make changes to this, or add more data sources. And raise a PR.
-
+## Credits
+- A big thanks [Netlify](https://netlify.com/) for hosting the [covidhospitals.online](https://covidhospitals.online/)
+- Thanks to [npoint.io](https://npoint.io) for hosting the AP hospital location data.
 
 ## Available Scripts
 
@@ -57,10 +59,6 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Lint and test your code using `npm test`.
-
-## Credits
-- A big thanks [Netlify](https://netlify.com/) for hosting the [covidhospitals.online](https://covidhospitals.online/)
-- Thanks to [npoint.io](https://npoint.io) for hosting the AP hospital location data.
 
 ## License
 
