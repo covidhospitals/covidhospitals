@@ -12,12 +12,35 @@ import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"
 
 import 'font-awesome/css/font-awesome.min.css';
 
+// class LocateControl extends React.Component {
+//     componentDidMount() {
+//         const map = useMap()
+//         const { options, startDirectly } = props;
+
+//         const lc = new Locate(options);
+//         lc.addTo(map);
+
+//         if (startDirectly) {
+//             // request location update and set location
+//             lc.start();
+//         }
+//     }
+
+//     render() {
+//         return null;
+//     }
+// }
+
+var lc
+
 function LocateControl(props) {
     const map = useMap()
     const { options, startDirectly } = props;
 
-    const lc = new Locate(options);
-    lc.addTo(map);
+    if (!lc) {
+        lc = new Locate(options);
+        lc.addTo(map);
+    }
 
     if (startDirectly) {
         // request location update and set location
@@ -65,17 +88,17 @@ class CovidMap extends React.Component {
         const { hospitals } = this.state;
 
         return (<MapContainer center={center} zoom={7} >
-            <LocateControl options={locateOptions} />
+            <LocateControl key="locate" options={locateOptions} />
             <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                attribution='&copy; <a href="http://osm.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <TileLayer
-                attribution='Source: <a href="http://dashboard.covid19.ap.gov.in/">ap.gov.in</a>' url="http://dashboard.covid19.ap.gov.in/"
+                attribution='Source: <a href="http://dashboard.covid19.ap.gov.in/" target="_blank" rel="noreferrer">ap.gov.in</a>' url="http://dashboard.covid19.ap.gov.in/"
             />
 
-            {hospitals.map(h => {
-                return (<Marker position={[h.location.latitude, h.location.longitude]}>
+            {hospitals.map((h, idx) => {
+                return (<Marker key={`h${idx}`} position={[h.location.latitude, h.location.longitude]}>
                     <Popup>
                         <table>
                             <thead>
@@ -89,7 +112,7 @@ class CovidMap extends React.Component {
                                 </tr>
                                 <tr>
                                     <th>Address:</th>
-                                    <th colSpan="3">{h.location.streetName+","+h.location.city}</th>
+                                    <th colSpan="3">{h.location.streetName + "," + h.location.city}</th>
                                 </tr>
                                 <tr>
                                     <th>Directions:</th>

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Covid19 Hospitals",
+  "name": "Covid19 hospital locations with beds availability",
   "icons": [
     {
       "src": "favicon.ico",
