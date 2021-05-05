@@ -161,7 +161,8 @@ function RightLinks(props) {
     const { dataSources } = props;
 
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (e) => {
+        e.preventDefault()
         setOpen(true);
     };
 
@@ -175,7 +176,7 @@ function RightLinks(props) {
             </a>
         </div>
         <div className="leaflet-bar leaflet-control">
-            <a role="button" className="leaflet-bar-part leaflet-bar-part-single " onClick={handleClickOpen}>
+            <a href="/#" className="leaflet-bar-part leaflet-bar-part-single " onClick={handleClickOpen}>
                 <span className="fa fa-database fa-lg"></span>
             </a>
             <SourceDialog open={open} onClose={handleClose} dataSources={dataSources} />
