@@ -1,6 +1,22 @@
-# Getting Started with Create React App
+# Covid19 Hospitals in India with beds availability on Map
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is created to locate all the covid19 hospitals on the map with the availability of the beds. Site hosted at [covidhospitals.online](http://covidhospitals.online/)
+
+## Technology stack
+- [Leaflet](https://leafletjs.com/)
+- [OpenStreetMap](openstreetmap.org)
+- [ReactJS](https://react-leaflet.js.org/)
+- [MapQuest](https://www.mapquest.com/)
+
+## Data Source
+Hospital location, and beds information is being collected and created by [covid19maps/datacollector](https://github.com/covid19maps/datacollector)
+
+| State or Locality | Site | Normalized data |
+| ------------- |-------------| ---- |
+| Andhra Pradesh      | [http://dashboard.covid19.ap.gov.in/](http://dashboard.covid19.ap.gov.in/) | [https://api.npoint.io/4594de00c3f1d76a08ec](https://api.npoint.io/4594de00c3f1d76a08ec)|
+
+Please feel make changes to this, or add more data sources. And raise a PR.
+
 
 ## Available Scripts
 
@@ -33,38 +49,21 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Contributing
+In lieu of a formal styleguide, take care to maintain the existing coding style. Lint and test your code using `npm test`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Credits
+- A big thanks [Netlify](https://netlify.com/) for hosting the [covidhospitals.online](https://covidhospitals.online/)
+- Thanks to [npoint.io](https://npoint.io) for hosting the AP hospital location data.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
+Copyright (c) 2021 Prasanna Kumar Gollangi
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Licensed under the MIT license.
