@@ -2,7 +2,7 @@ import './App.css';
 
 import CovidMap from './Map'
 import ReactGA from 'react-ga';
-ReactGA.initialize('G-H31DC3YHMR');
+ReactGA.initialize('UA-196384229-1');
 
 function App() {
   return (
