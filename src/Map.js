@@ -75,11 +75,24 @@ class CovidMap extends React.Component {
             />
 
             {hospitals.map(h => {
-                return (<Marker  position={[h.location.latitude, h.location.longitude]}>
+                return (<Marker position={[h.location.latitude, h.location.longitude]}>
                     <Popup>
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Hospital:</th>
+                                    <th colSpan="3">{h.name}</th>
+                                </tr>
+                                <tr>
+                                    <th>Phone:</th>
+                                    <th>{h.phoneNumber}</th>
+                                </tr>
+                                <tr>
+                                    <th>Address:</th>
+                                    <th>{h.location.streetName+","+h.location.city}</th>
+                                </tr>
+                                <tr>
+
                                     <th>Beds</th>
                                     <th>Total</th>
                                     <th>Occupied</th>
