@@ -92,6 +92,10 @@ class CovidMap extends React.Component {
                                     <th colSpan="3">{h.location.streetName+","+h.location.city}</th>
                                 </tr>
                                 <tr>
+                                    <th>Directions:</th>
+                                    <th colSpan="3"><a href={`https://www.google.com/maps/search/?api=1&query=${h.location.latitude},${h.location.longitude}`} target="_blank" rel="noreferrer">Click Here</a></th>
+                                </tr>
+                                <tr>
 
                                     <th>Beds</th>
                                     <th>Total</th>
