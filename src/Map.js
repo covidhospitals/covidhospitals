@@ -85,11 +85,11 @@ class CovidMap extends React.Component {
                                 </tr>
                                 <tr>
                                     <th>Phone:</th>
-                                    <th>{h.phoneNumber}</th>
+                                    <th colSpan="3">{h.phoneNumber}</th>
                                 </tr>
                                 <tr>
                                     <th>Address:</th>
-                                    <th>{h.location.streetName+","+h.location.city}</th>
+                                    <th colSpan="3">{h.location.streetName+","+h.location.city}</th>
                                 </tr>
                                 <tr>
 
