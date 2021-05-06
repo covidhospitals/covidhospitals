@@ -2,9 +2,9 @@
 
 This project is created to locate all the covid19 hospitals on the map with the availability of the beds. Site hosted at [covidhospitals.online](http://covidhospitals.online/)
 
-## Technology stack
+## Built With
 - [Leaflet](https://leafletjs.com/)
-- [OpenStreetMap](openstreetmap.org)
+- [OpenStreetMap](https://openstreetmap.org)
 - [ReactJS](https://react-leaflet.js.org/)
 - [MapQuest](https://www.mapquest.com/)
 

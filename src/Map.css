@@ -3,3 +3,23 @@
     height: 100%;
     width: 100%;
 }
+
+.map-search-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    z-index: 999;
+    width: 100%;
+}
+
+.map-search-container li:before {
+    content: "\f041"; /* FontAwesome Unicode */
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: -1.3em; /* same as padding-left set on li */
+    width: 1.3em; /* same as padding-left set on li */
+}
+
+.search-marker {
+    color: #fc8428;
+}

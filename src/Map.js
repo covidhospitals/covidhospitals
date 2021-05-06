@@ -1,218 +1,48 @@
-import React from 'react';
 import './Map.css'
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
-
-import Locate from "leaflet.locatecontrol";
-
-import "leaflet.locatecontrol/dist/L.Control.Locate.min.css"
-
 import 'font-awesome/css/font-awesome.min.css';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, withStyles } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
 
-import PropTypes from 'prop-types';
-import ReactTimeAgo from 'react-time-ago'
-import JavascriptTimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
-JavascriptTimeAgo.addLocale(en)
+import LocateControl from './components/LocateControl'
+import SearchControl from './components/SearchControl'
+import RightControls from './components/RightControls'
 
+import fetchAllData from './data-source'
 
-
-
-// class LocateControl extends React.Component {
-//     componentDidMount() {
-//         const map = useMap()
-//         const { options, startDirectly } = props;
-
-//         const lc = new Locate(options);
-//         lc.addTo(map);
-
-//         if (startDirectly) {
-//             // request location update and set location
-//             lc.start();
-//         }
-//     }
-
-//     render() {
-//         return null;
-//     }
-// }
-
-var lc
-
-function LocateControl(props) {
-    const map = useMap()
-    const { options, startDirectly } = props;
-
-    if (!lc) {
-        lc = new Locate(options);
-        lc.addTo(map);
-    }
-
-    if (startDirectly) {
-        // request location update and set location
-        lc.start();
-    }
-    return null
-}
-
-const useStyles = makeStyles({
-    avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
-});
-
-
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
-
-
-function SourceDialog(props) {
-    const classes = useStyles();
-    const { onClose, open, dataSources } = props;
-
-    const handleClose = () => {
-        onClose();
-    };
-
-    return (
-        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                Data Source
-        </DialogTitle>
-            <DialogContent >
-
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <StyledTableRow>
-                                <StyledTableCell >State or Locality</StyledTableCell >
-                                <StyledTableCell >Site</StyledTableCell >
-                                <StyledTableCell >Last updated</StyledTableCell >
-                            </StyledTableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                dataSources.map((d, idx) => {
-                                    return (
-                                        <StyledTableRow key={`ds${idx}`}>
-                                            <StyledTableCell component="th" scope="row">
-                                                Andhra Pradesh
-                                            </StyledTableCell>
-                                            <StyledTableCell component="th" scope="row">
-                                                <a href="http://dashboard.covid19.ap.gov.in/" target="blank">
-                                                    http://dashboard.covid19.ap.gov.in/</a>
-                                            </StyledTableCell>
-                                            <StyledTableCell component="th" scope="row">
-                                                <ReactTimeAgo date={new Date(d.time)} />
-                                            </StyledTableCell>
-                                        </StyledTableRow>
-                                    )
-                                })
-                            }
-
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-
-                <p>
-                    This site is an open source project.
-                    </p>
-                <p> Please feel make changes to this, or add more data sources at <a href="https://github.com/covid19maps/covid19maps" target="blank">github.com/covid19maps/covid19maps</a>
-                </p>
-            </DialogContent>
-            <DialogActions>
-                <Button autoFocus onClick={handleClose} color="primary">OK</Button>
-            </DialogActions>
-        </Dialog>
-    );
-}
-
-SourceDialog.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-    dataSources: PropTypes.array
-};
-
-
-
-function RightLinks(props) {
-    const [open, setOpen] = React.useState(false);
-    const { dataSources } = props;
-
-
-    const handleClickOpen = (e) => {
-        e.preventDefault()
-        setOpen(true);
-    };
-
-    const handleClose = (value) => {
-        setOpen(false);
-    };
-    return <div className="leaflet-top leaflet-right ">
-        <div className="leaflet-bar leaflet-control">
-            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covid19maps/covid19maps" target="_blank" rel="noreferrer">
-                <span className="fa fa-github fa-lg"></span>
-            </a>
-        </div>
-        <div className="leaflet-bar leaflet-control">
-            <a href="/#" className="leaflet-bar-part leaflet-bar-part-single " onClick={handleClickOpen}>
-                <span className="fa fa-database fa-lg"></span>
-            </a>
-            <SourceDialog open={open} onClose={handleClose} dataSources={dataSources} />
-        </div>
-
-    </div>
-}
-
-async function fetchAPHospitals() {
-    const response = await fetch('https://api.npoint.io/4594de00c3f1d76a08ec');
-    const hospitals = await response.json();
-    return hospitals;
-}
 
 class CovidMap extends React.Component {
     constructor() {
         super();
         this.state = {
             // lastUpdated: undefined,
-            allHospitals: []
+            allHospitals: [],
+            center: {
+                lat: 15.9129,
+                lng: 79.7400,
+            }
         }
     }
     componentDidMount() {
-        fetchAPHospitals().then(apData => {
+        fetchAllData().then(allData => {
             this.setState({
-                allHospitals: [apData]
+                allHospitals: allData
             })
         })
     }
 
-    render() {
-        const center = {
-            lat: 15.9129,
-            lng: 79.7400,
-        }
+    setCenter(location) {
+        this.setState({
+            center: location
+        })
+    }
 
+    render() {
+        const { center } = this.state;
         const locateOptions = {
             position: 'topleft',
             strings: {
@@ -224,16 +54,39 @@ class CovidMap extends React.Component {
         const { allHospitals } = this.state;
 
         return (<MapContainer center={center} zoom={7} >
-            <LocateControl key="locate" options={locateOptions} />
+            
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <TileLayer
-                attribution='Created by <a href="https://pgollangi.com/tabs/about" target="_blank" rel="noreferrer">pgollangi.com</a>'
-                url="http://dashboard.covid19.ap.gov.in/"
+                attribution='Created by <a href="https://github.com/pgollangi" target="_blank" rel="noreferrer">github.com/pgollangi</a>'
+                url="https://github.com/pgollangi"
             />
-            <RightLinks dataSources={allHospitals} />
+            <LocateControl key="locate" options={locateOptions} />
+            <SearchControl />
+            <RightControls dataSources={allHospitals} />
+
+            {/* <div className="map-search-container">
+                <ReactSearchBox
+                    placeholder="Search hospital or address"
+                    data={data}
+                    onSelect={record => {
+                        this.setCenter({
+                            lat: record.location.latitude,
+                            lng: record.location.longitude,
+                        })
+                    }}
+                    onFocus={() => {
+                        console.log('This function is called when is focussed')
+                    }}
+                    onChange={value => console.log(value)}
+                    fuseConfigs={{
+                        threshold: 0.05,
+                    }}
+                    value=""
+                />
+            </div> */}
 
             {allHospitals.map((d) => {
                 return d.hospitals.map((h, idx) => {
