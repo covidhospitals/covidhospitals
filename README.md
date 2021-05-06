@@ -10,11 +10,12 @@ This project is created to locate all the covid19 hospitals on the map with the 
 - [MapQuest](https://www.mapquest.com/)
 
 ## Data Source
-Hospital location, and beds information is being collected and created by [covid19maps/datacollector](https://github.com/covid19maps/datacollector)
+Hospital location, and beds information is being collected and created by [covidhospitals/datacollector](https://github.com/covidhospitals/datacollector)
 
 | State or Locality | Site | Normalized data |
 | ------------- |-------------| ---- |
 | Andhra Pradesh      | [http://dashboard.covid19.ap.gov.in/](http://dashboard.covid19.ap.gov.in/) | [https://api.npoint.io/4594de00c3f1d76a08ec](https://api.npoint.io/4594de00c3f1d76a08ec)|
+| Delhi      | [https://coronabeds.jantasamvad.org/](https://coronabeds.jantasamvad.org/) | [https://api.npoint.io/4d61424b0910b4a2b692](https://api.npoint.io/4d61424b0910b4a2b692)|
 
 Please feel make changes to this, or add more data sources. And raise a PR.
 ## Credits

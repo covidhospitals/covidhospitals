@@ -94,7 +94,7 @@ function SourceDialog(props) {
                 <p>
                     This site is an open source project.
                     </p>
-                <p> Please feel make changes to this, or add more data sources at <a href="https://github.com/covid19maps/covid19maps" target="blank">github.com/covid19maps/covid19maps</a>
+                <p> Please feel make changes to this, or add more data sources at <a href="https://github.com/covidhospitals/covidhospitals" target="blank">github.com/covidhospitals/covidhospitals</a>
                 </p>
             </DialogContent>
             <DialogActions>
@@ -127,7 +127,7 @@ export default function RightControls(props) {
     };
     return <div className="leaflet-top leaflet-right ">
         <div className="leaflet-bar leaflet-control">
-            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covid19maps/covid19maps" target="_blank" rel="noreferrer">
+            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covidhospitals/covidhospitals" target="_blank" rel="noreferrer">
                 <span className="fa fa-github fa-lg"></span>
             </a>
         </div>
