@@ -1,5 +1,5 @@
 
-
+// eslint-disable-next-line
 function fetchDelhiHospitals() {
     return Promise.all(
         fetch('https://coronabeds.jantasamvad.org/covid-facilities.js', {mode: 'no-cors'}).then(r => r.text()),

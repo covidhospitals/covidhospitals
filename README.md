@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/58c2c8cf-de73-4dc1-8783-7fc964f6b87e/deploy-status)](https://app.netlify.com/sites/covidhospitals/deploys)
 # Covid19 Hospitals in India with beds availability on Map
 
 This project is created to locate all the covid19 hospitals on the map with the availability of the beds. Site hosted at [covidhospitals.online](http://covidhospitals.online/)
