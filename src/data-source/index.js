@@ -44,7 +44,10 @@ function fetchAPHospitals() {
     return fetch('https://api.npoint.io/4594de00c3f1d76a08ec').then(response => response.json());
 }
 
+function fetchDelhiData() {
+    return fetch('https://api.npoint.io/4d61424b0910b4a2b692').then(response => response.json());
+}
 
 export default function fetchAllData() {
-    return Promise.all([fetchAPHospitals()])
+    return Promise.all([fetchAPHospitals(), fetchDelhiData()])
 }

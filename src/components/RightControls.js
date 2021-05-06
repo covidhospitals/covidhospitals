@@ -73,14 +73,14 @@ function SourceDialog(props) {
                                     return (
                                         <StyledTableRow key={`ds${idx}`}>
                                             <StyledTableCell component="th" scope="row">
-                                                Andhra Pradesh
+                                                {d.stateOrLocality}
                                             </StyledTableCell>
                                             <StyledTableCell component="th" scope="row">
-                                                <a href="http://dashboard.covid19.ap.gov.in/" target="blank">
-                                                    http://dashboard.covid19.ap.gov.in/</a>
+                                                <a href={d.source} target="blank">
+                                                {d.source}</a>
                                             </StyledTableCell>
                                             <StyledTableCell component="th" scope="row">
-                                                <ReactTimeAgo date={new Date(d.time)} />
+                                                <ReactTimeAgo date={new Date(d.lastUpdatedAt)} />
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )
