@@ -73,7 +73,7 @@ function fetchDelhiHospitals() {
 }
 
 function fetchAPHospitals() {
-    return fetch('https://api.npoint.io/4594de00c3f1d76a08ec').then(response => response.json());
+    return fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/ap-hospitals-locations-live.json').then(response => response.json());
 }
 
 // function fetchDelhiData() {
@@ -92,5 +92,5 @@ function fetchTSHospitals() {
 }
 
 export default function fetchAllData() {
-    return Promise.all([fetchAPHospitals(), fetchDelhiHospitals()])
+    return Promise.all([fetchAPHospitals()])
 }
