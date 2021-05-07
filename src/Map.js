@@ -29,13 +29,18 @@ class CovidMap extends React.Component {
     }
     componentDidMount() {
         fetchAllData().then(allData => {
+            var list = [];
             for (let h of allData) {
+                if (!h) {
+                    continue;
+                }
                 h.stateOrLocality = h.stateOrLocality || "Andhra Pradesh";
                 h.source = h.source || "http://dashboard.covid19.ap.gov.in/";
-                h.lastUpdatedAt = h.time || h.lastUpdatedAt
+                h.lastUpdatedAt = h.time || h.lastUpdatedAt;
+                list.push(h);
             }
             this.setState({
-                allHospitals: allData
+                allHospitals: list
             })
         })
     }
