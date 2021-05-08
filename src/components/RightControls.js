@@ -134,15 +134,21 @@ export default function RightControls(props) {
     };
     return <div className="leaflet-top leaflet-right ">
         <div className="leaflet-bar leaflet-control">
-            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covidhospitals/covidhospitals" target="_blank">
+            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covidhospitals/covidhospitals" target="_blank" title="Contribute and explore source code">
                 <span className="fa fa-github fa-lg"></span>
             </a>
         </div>
-        <div className="leaflet-bar leaflet-control">
-            <a href="/#" className="leaflet-bar-part leaflet-bar-part-single " onClick={handleClickOpen}>
+        <div className="leaflet-bar leaflet-control" >
+            <a href="/#" className="leaflet-bar-part leaflet-bar-part-single " onClick={handleClickOpen} title="See source of data">
                 <span className="fa fa-database fa-lg"></span>
             </a>
             <SourceDialog open={open} onClose={handleClose} dataSources={dataSources} />
+        </div>
+
+        <div className="leaflet-bar leaflet-control">
+            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covidhospitals/covidhospitals/issues/new" target="_blank" title="Report an issue">
+                <span className="fa fa-bug fa-lg"></span>
+            </a>
         </div>
 
     </div>
