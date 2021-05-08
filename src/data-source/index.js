@@ -163,7 +163,7 @@ function fetchBangloreHospitals() {
                 location: hLocation
             }
         }).filter(h => !!h);
-        
+
         return {
             stateOrLocality: 'Bangalore',
             source: "https://covidbengaluru.com/",
@@ -173,6 +173,57 @@ function fetchBangloreHospitals() {
     });
 }
 
+
+function fetchWBHospitals() {
+    return Promise.all([
+        fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/wb/wb-locations.json').then(r => r.json()),
+        fetch('https://covidwb.com/data/covidwb.com/bed_data.json').then(r => r.json())
+    ]).then(result => {
+        var [locations, beds] = result;
+        var lastUpdatedAt;
+        var hospitals = beds.map(h => {
+            var locKey = `${h.hospital_name}::${h.district}`;
+            var hLocation = locations[locKey];
+            if (!hLocation) {
+                return undefined;
+            }
+            if (!lastUpdatedAt || h.last_updated_on > lastUpdatedAt) {
+                lastUpdatedAt = h.last_updated_on
+            }
+            return {
+                name: h.hospital_name,
+                phoneNumber: h.hospital_phone,
+                type: '',
+                lastUpdatedAt: h.last_updated_on,
+                district: h.district,
+                general: {
+                    total: h.total_beds_without_oxygen,
+                    available: h.available_beds_without_oxygen,
+                    occupied: h.total_beds_without_oxygen - h.available_beds_without_oxygen
+                },
+                icu: {
+                    total: h.total_icu_beds_with_ventilator,
+                    available: h.available_icu_beds_with_ventilator,
+                    occupied: h.total_icu_beds_with_ventilator - h.available_icu_beds_with_ventilator
+                },
+                o2: {
+                    total: h.total_beds_with_oxygen,
+                    available: h.available_beds_with_oxygen,
+                    occupied: h.total_beds_with_oxygen - h.available_beds_with_oxygen
+                },
+                location: hLocation
+            }
+        }).filter(h => !!h);
+        
+        return {
+            stateOrLocality: 'West Bengal',
+            source: "https://covidwb.com/",
+            lastUpdatedAt,
+            hospitals
+        }
+    });
+}
+
 export default function fetchAllData() {
-    return [fetchAPHospitals(), fetchTSHospitals(), fetchDelhiHospitals(), fetchBangloreHospitals()]
+    return [fetchAPHospitals(), fetchTSHospitals(), fetchDelhiHospitals(), fetchBangloreHospitals(), fetchWBHospitals()]
 }
