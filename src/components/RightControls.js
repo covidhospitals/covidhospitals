@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
 
 
@@ -70,7 +71,6 @@ function SourceDialog(props) {
                         <TableBody>
                             {
                                 dataSources.map((d, idx) => {
-                                    console.log(d);
                                     return (
                                         <StyledTableRow key={`ds${idx}`}>
                                             <StyledTableCell component="th" scope="row">
@@ -81,7 +81,9 @@ function SourceDialog(props) {
                                                 {d.source}</a>
                                             </StyledTableCell>
                                             <StyledTableCell component="th" scope="row">
-                                                <ReactTimeAgo date={new Date(d.lastUpdatedAt)} />
+                                                {
+                                                    ((!d.lastUpdatedAt) ? ("N/A") : (<ReactTimeAgo date={new Date(d.lastUpdatedAt)} />))
+                                                }
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )
@@ -128,7 +130,7 @@ export default function RightControls(props) {
     };
     return <div className="leaflet-top leaflet-right ">
         <div className="leaflet-bar leaflet-control">
-            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covidhospitals/covidhospitals" target="_blank" rel="noreferrer">
+            <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covidhospitals/covidhospitals" target="_blank">
                 <span className="fa fa-github fa-lg"></span>
             </a>
         </div>

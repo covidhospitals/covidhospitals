@@ -74,7 +74,6 @@ function fetchAPHospitals() {
 //     return fetch('https://api.npoint.io/4d61424b0910b4a2b692').then(response => response.json());
 // }
 
-// eslint-disable-next-line
 function fetchTSHospitals() {
     return Promise.all([
         fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/ts/ts-locations.json').then(r => r.json()),
@@ -115,7 +114,6 @@ function fetchTSHospitals() {
                 location: hLocation
             }
         }).filter(h => !!h);
-        console.log('Total TS Hospitals ', hospitals.length);
         return {
             stateOrLocality: 'Telangana',
             source: "https://covidtelangana.com/",
@@ -125,6 +123,56 @@ function fetchTSHospitals() {
     });
 }
 
+function fetchBangloreHospitals() {
+    return Promise.all([
+        fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/banglore/bangalore-locations.json').then(r => r.json()),
+        fetch('https://covidbengaluru.com/data/covidbengaluru.com/bed_data.json').then(r => r.json())
+    ]).then(result => {
+        var [locations, beds] = result;
+        var lastUpdatedAt;
+        var hospitals = beds.map(h => {
+            var locKey = `${h.hospital_name}::${h.district}`;
+            var hLocation = locations[locKey];
+            if (!hLocation) {
+                return undefined;
+            }
+            if (!lastUpdatedAt || h.last_updated_on > lastUpdatedAt) {
+                lastUpdatedAt = h.last_updated_on
+            }
+            return {
+                name: h.hospital_name,
+                phoneNumber: h.hospital_phone,
+                type: '',
+                lastUpdatedAt: h.last_updated_on,
+                district: h.district,
+                general: {
+                    total: h.total_beds_without_oxygen,
+                    available: h.available_beds_without_oxygen,
+                    occupied: h.total_beds_without_oxygen - h.available_beds_without_oxygen
+                },
+                icu: {
+                    total: h.total_icu_beds_with_ventilator,
+                    available: h.available_icu_beds_with_ventilator,
+                    occupied: h.total_icu_beds_with_ventilator - h.available_icu_beds_with_ventilator
+                },
+                o2: {
+                    total: h.total_beds_with_oxygen,
+                    available: h.available_beds_with_oxygen,
+                    occupied: h.total_beds_with_oxygen - h.available_beds_with_oxygen
+                },
+                location: hLocation
+            }
+        }).filter(h => !!h);
+        
+        return {
+            stateOrLocality: 'Bangalore',
+            source: "https://covidbengaluru.com/",
+            lastUpdatedAt,
+            hospitals
+        }
+    });
+}
+
 export default function fetchAllData() {
-    return [fetchAPHospitals(), fetchTSHospitals(), fetchDelhiHospitals()]
+    return [fetchAPHospitals(), fetchTSHospitals(), fetchDelhiHospitals(), fetchBangloreHospitals()]
 }

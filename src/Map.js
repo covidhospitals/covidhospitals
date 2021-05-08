@@ -73,7 +73,7 @@ class CovidMap extends React.Component {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <TileLayer
-                attribution='Created by <a href="https://github.com/pgollangi" target="_blank" rel="noreferrer">github.com/pgollangi</a>'
+                attribution='Created by <a href="https://github.com/pgollangi" target="_blank" >github.com/pgollangi</a>'
                 url="https://github.com/pgollangi"
             />
             <LocateControl key="locate" options={locateOptions} />
@@ -134,7 +134,9 @@ class CovidMap extends React.Component {
                                     <tr>
                                         <th>LastUpdated:</th>
                                         <td colSpan="3">
-                                            <ReactTimeAgo date={new Date(h.lastUpdatedAt || d.lastUpdatedAt)} />
+                                            {
+                                                ((!h.lastUpdatedAt && !d.lastUpdatedAt) ? ("N/A") : (<ReactTimeAgo date={new Date(h.lastUpdatedAt || d.lastUpdatedAt)} />))
+                                            }
                                         </td>
                                     </tr>
                                     <tr>
