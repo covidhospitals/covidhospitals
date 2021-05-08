@@ -67,7 +67,7 @@ class CovidMap extends React.Component {
 
         const { allHospitals } = this.state;
 
-        return (<MapContainer center={center} zoom={5.5} >
+        return (<MapContainer center={center} zoom={5} >
 
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'
