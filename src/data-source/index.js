@@ -60,19 +60,70 @@ function fetchDelhiHospitals() {
             return {
                 lastUpdatedAt: bData.last_updated_at,
                 stateOrLocality: "Delhi",
-                source: "https://coronabeds.jantasamvad.org/",
+                source: "https://coronabeds.jantasamvad.org",
                 hospitals: allHospitals
             }
         })
 }
 
-function fetchAPHospitals() {
-    return fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/ap-hospitals-locations-live.json').then(response => response.json());
-}
+// function fetchAPHospitals() {
+//     return fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/ap-hospitals-locations-live.json').then(response => response.json());
+// }
 
 // function fetchDelhiData() {
 //     return fetch('https://api.npoint.io/4d61424b0910b4a2b692').then(response => response.json());
 // }
+
+
+function fetchAPHospitals() {
+    return Promise.all([
+        fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/ap/ap-locations.json').then(r => r.json()),
+        fetch('https://covidaps.com/data/covidaps.com/bed_data.json').then(r => r.json())
+    ]).then(result => {
+        var [locations, beds] = result;
+        var lastUpdatedAt;
+        var hospitals = beds.map(h => {
+            var locKey = `${h.hospital_name}::${h.district}`;
+            var hLocation = locations[locKey];
+            if (!hLocation) {
+                return undefined;
+            }
+            if (!lastUpdatedAt || h.last_updated_on > lastUpdatedAt) {
+                lastUpdatedAt = h.last_updated_on
+            }
+            return {
+                name: h.hospital_name,
+                phoneNumber: h.hospital_phone,
+                type: '',
+                lastUpdatedAt: h.last_updated_on,
+                district: h.district,
+                general: {
+                    total: h.total_beds_without_oxygen,
+                    available: h.available_beds_without_oxygen,
+                    occupied: h.total_beds_without_oxygen - h.available_beds_without_oxygen
+                },
+                icu: {
+                    total: h.total_icu_beds_with_ventilator,
+                    available: h.available_icu_beds_with_ventilator,
+                    occupied: h.total_icu_beds_with_ventilator - h.available_icu_beds_with_ventilator
+                },
+                o2: {
+                    total: h.total_beds_with_oxygen,
+                    available: h.available_beds_with_oxygen,
+                    occupied: h.total_beds_with_oxygen - h.available_beds_with_oxygen
+                },
+                location: hLocation
+            }
+        }).filter(h => !!h);
+        return {
+            stateOrLocality: 'Andhra Pradesh',
+            source: "https://covidaps.com",
+            lastUpdatedAt,
+            hospitals
+        }
+    });
+}
+
 
 function fetchTSHospitals() {
     return Promise.all([
@@ -116,7 +167,7 @@ function fetchTSHospitals() {
         }).filter(h => !!h);
         return {
             stateOrLocality: 'Telangana',
-            source: "https://covidtelangana.com/",
+            source: "https://covidtelangana.com",
             lastUpdatedAt,
             hospitals
         }
@@ -166,7 +217,7 @@ function fetchBangloreHospitals() {
 
         return {
             stateOrLocality: 'Bangalore',
-            source: "https://covidbengaluru.com/",
+            source: "https://covidbengaluru.com",
             lastUpdatedAt,
             hospitals
         }
@@ -217,7 +268,7 @@ function fetchWBHospitals() {
         
         return {
             stateOrLocality: 'West Bengal',
-            source: "https://covidwb.com/",
+            source: "https://covidwb.com",
             lastUpdatedAt,
             hospitals
         }

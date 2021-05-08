@@ -64,8 +64,9 @@ function SourceDialog(props) {
                         <TableHead>
                             <StyledTableRow>
                                 <StyledTableCell >State or Locality</StyledTableCell >
-                                <StyledTableCell >Site</StyledTableCell >
+                                <StyledTableCell >Hospitals</StyledTableCell >
                                 <StyledTableCell >Last updated</StyledTableCell >
+                                <StyledTableCell >Site</StyledTableCell >
                             </StyledTableRow>
                         </TableHead>
                         <TableBody>
@@ -77,13 +78,16 @@ function SourceDialog(props) {
                                                 {d.stateOrLocality}
                                             </StyledTableCell>
                                             <StyledTableCell component="th" scope="row">
-                                                <a href={d.source} target="blank">
-                                                {d.source}</a>
+                                                {d.hospitals.length}
                                             </StyledTableCell>
                                             <StyledTableCell component="th" scope="row">
                                                 {
                                                     ((!d.lastUpdatedAt) ? ("N/A") : (<ReactTimeAgo date={new Date(d.lastUpdatedAt)} />))
                                                 }
+                                            </StyledTableCell>
+                                            <StyledTableCell component="th" scope="row">
+                                                <a href={d.source} target="blank">
+                                                {d.source.replace('https://','').replace('http://','')}</a>
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )
