@@ -336,5 +336,6 @@ export default function fetchAllData() {
         fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/vadodara/vadodara-locations.json', ' https://covidbaroda.com/data/covidbaroda.com/bed_data.json', "Vadodara", "https://covidbaroda.com/"),
         fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/tn/tn-locations.json', 'https://covidtnadu.com/data/covidtnadu.com/bed_data.json', "Tamil Nadu", "https://covidtnadu.com/"),
         fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/mp/mp-locations.json', 'https://covidmp.com/data/covidmp.com/bed_data.json', "Madhya Pradesh", "https://covidmp.com/"),
+        fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/gandhinagar/gandhinagar-locations.json', 'https://covidgandhinagar.com/data/covidgandhinagar.com/bed_data.json', "Gandhinagar", "https://covidgandhinagar.com/"),
     ]
 }
