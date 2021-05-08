@@ -53,7 +53,7 @@ function SourceDialog(props) {
     };
 
     return (
-        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="md">
             <DialogTitle id="customized-dialog-title" onClose={handleClose}>
                 Data Source
         </DialogTitle>

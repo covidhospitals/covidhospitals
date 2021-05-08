@@ -74,6 +74,55 @@ function fetchDelhiHospitals() {
 //     return fetch('https://api.npoint.io/4d61424b0910b4a2b692').then(response => response.json());
 // }
 
+async function fetchCovidData(locations, data, state, source) {
+    return Promise.all([
+        fetch(locations).then(r => r.json()),
+        fetch(data).then(r => r.json())
+    ]).then(result => {
+        var [locations, beds] = result;
+        var lastUpdatedAt;
+        var hospitals = beds.map(h => {
+            var locKey = `${h.hospital_name}::${h.district}`;
+            var hLocation = locations[locKey];
+            if (!hLocation) {
+                return undefined;
+            }
+            if (!lastUpdatedAt || h.last_updated_on > lastUpdatedAt) {
+                lastUpdatedAt = h.last_updated_on
+            }
+            return {
+                name: h.hospital_name,
+                phoneNumber: h.hospital_phone,
+                type: '',
+                lastUpdatedAt: h.last_updated_on,
+                district: h.district,
+                general: {
+                    total: h.total_beds_without_oxygen,
+                    available: h.available_beds_without_oxygen,
+                    occupied: h.total_beds_without_oxygen - h.available_beds_without_oxygen
+                },
+                icu: {
+                    total: h.total_icu_beds_with_ventilator,
+                    available: h.available_icu_beds_with_ventilator,
+                    occupied: h.total_icu_beds_with_ventilator - h.available_icu_beds_with_ventilator
+                },
+                o2: {
+                    total: h.total_beds_with_oxygen,
+                    available: h.available_beds_with_oxygen,
+                    occupied: h.total_beds_with_oxygen - h.available_beds_with_oxygen
+                },
+                location: hLocation
+            }
+        }).filter(h => !!h);
+        return {
+            stateOrLocality: state,
+            source: source,
+            lastUpdatedAt,
+            hospitals
+        }
+    });
+}
+
 
 function fetchAPHospitals() {
     return Promise.all([
@@ -265,7 +314,7 @@ function fetchWBHospitals() {
                 location: hLocation
             }
         }).filter(h => !!h);
-        
+
         return {
             stateOrLocality: 'West Bengal',
             source: "https://covidwb.com",
@@ -276,5 +325,16 @@ function fetchWBHospitals() {
 }
 
 export default function fetchAllData() {
-    return [fetchAPHospitals(), fetchTSHospitals(), fetchDelhiHospitals(), fetchBangloreHospitals(), fetchWBHospitals()]
+    return [
+        fetchAPHospitals(),
+        fetchTSHospitals(),
+        fetchDelhiHospitals(),
+        fetchBangloreHospitals(),
+        fetchWBHospitals(),
+        fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/ahmedabad/ahmedabad-locations.json', 'https://covidamd.com/data/covidamd.com/bed_data.json', "Ahmedabad", "https://covidamd.com"),
+        fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/pune/pune-locations.json', 'https://covidpune.com/data/covidpune.com/bed_data.json', "Pune", "https://covidpune.com/"),
+        fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/vadodara/vadodara-locations.json', ' https://covidbaroda.com/data/covidbaroda.com/bed_data.json', "Vadodara", "https://covidbaroda.com/"),
+        fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/tn/tn-locations.json', 'https://covidtnadu.com/data/covidtnadu.com/bed_data.json', "Tamil Nadu", "https://covidtnadu.com/"),
+        fetchCovidData('https://raw.githubusercontent.com/covidhospitals/datacollector/main/mp/mp-locations.json', 'https://covidmp.com/data/covidmp.com/bed_data.json', "Madhya Pradesh", "https://covidmp.com/"),
+    ]
 }
