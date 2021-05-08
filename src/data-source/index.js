@@ -45,7 +45,7 @@ function fetchDelhiHospitals() {
                     name: hName,
                     type: hValue.type,
                     phoneNumber: hValue.contact_numbers,
-                    lastUpdatedAt bData.last_updated_at,
+                    lastUpdatedAt: bData.last_updated_at,
                     general: general,
                     o2: o2,
                     icu: icu,
