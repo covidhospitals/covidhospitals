@@ -20,9 +20,15 @@ const handler = async (event) => {
 
 
   try {
-    var path = event.queryStringParameters.path
-    var response = await fetch(`https://coronabeds.jantasamvad.org/${path}`).then(r => r.text());
-    return { statusCode: 200, body: response };
+    var hospitals = await fetch(`https://coronabeds.jantasamvad.org/covid-facilities.js`).then(r => r.text());
+    var hospitalData = await fetch(`https://coronabeds.jantasamvad.org/covid-info.js`).then(r => r.text());
+
+    var hData = hospitals.replace('var gnctd_covid_facilities_data =', '').replace('};', '}')
+    hData = JSON.parse(hData)
+    var bData = hospitalData.replace('var gnctd_covid_data =', '').replace('};', '}')
+    bData = JSON.parse(bData);
+
+    return { statusCode: 200, body: JSON.stringify({hData, bData}) };
   } catch (error) {
     return { statusCode: 200, body: error.toString() }
   }
