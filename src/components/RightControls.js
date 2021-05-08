@@ -70,6 +70,7 @@ function SourceDialog(props) {
                         <TableBody>
                             {
                                 dataSources.map((d, idx) => {
+                                    console.log(d);
                                     return (
                                         <StyledTableRow key={`ds${idx}`}>
                                             <StyledTableCell component="th" scope="row">

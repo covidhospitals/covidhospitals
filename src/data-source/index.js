@@ -3,7 +3,7 @@
 function fetchDelhiHospitals() {
     return fetch('/.netlify/functions/delhi-data-collector').then(r => r.json())
         .then((r) => {
-            const {hData, bData} = r;  
+            const { hData, bData } = r;
             var allHospitals = []
             for (let hName of Object.keys(hData)) {
                 let hValue = hData[hName];
@@ -45,6 +45,7 @@ function fetchDelhiHospitals() {
                     name: hName,
                     type: hValue.type,
                     phoneNumber: hValue.contact_numbers,
+                    lastUpdatedAt bData.last_updated_at,
                     general: general,
                     o2: o2,
                     icu: icu,
@@ -75,15 +76,55 @@ function fetchAPHospitals() {
 
 // eslint-disable-next-line
 function fetchTSHospitals() {
-    return fetch('https://covidtelangana.com/data/covidtelangana.com/bed_data.json')
-        .then(r => r.json()).then(data => {
-
-            return {
-
+    return Promise.all([
+        fetch('https://raw.githubusercontent.com/covidhospitals/datacollector/main/ts/ts-locations.json').then(r => r.json()),
+        fetch('https://covidtelangana.com/data/covidtelangana.com/bed_data.json').then(r => r.json())
+    ]).then(result => {
+        var [locations, beds] = result;
+        var lastUpdatedAt;
+        var hospitals = beds.map(h => {
+            var locKey = `${h.hospital_name}::${h.district}`;
+            var hLocation = locations[locKey];
+            if (!hLocation) {
+                return undefined;
             }
-        });
+            if (!lastUpdatedAt || h.last_updated_on > lastUpdatedAt) {
+                lastUpdatedAt = h.last_updated_on
+            }
+            return {
+                name: h.hospital_name,
+                phoneNumber: h.hospital_phone,
+                type: '',
+                lastUpdatedAt: h.last_updated_on,
+                district: h.district,
+                general: {
+                    total: h.total_beds_without_oxygen,
+                    available: h.available_beds_without_oxygen,
+                    occupied: h.total_beds_without_oxygen - h.available_beds_without_oxygen
+                },
+                icu: {
+                    total: h.total_icu_beds_with_ventilator,
+                    available: h.available_icu_beds_with_ventilator,
+                    occupied: h.total_icu_beds_with_ventilator - h.available_icu_beds_with_ventilator
+                },
+                o2: {
+                    total: h.total_beds_with_oxygen,
+                    available: h.available_beds_with_oxygen,
+                    occupied: h.total_beds_with_oxygen - h.available_beds_with_oxygen
+                },
+                location: hLocation
+            }
+        }).filter(h => !!h);
+        console.log('Total TS Hospitals ', hospitals.length);
+        return {
+            stateOrLocality: 'Telangana',
+            source: "https://covidtelangana.com/",
+            lastUpdatedAt,
+            hospitals
+        }
+    });
 }
 
 export default function fetchAllData() {
-    return [fetchAPHospitals(), fetchDelhiHospitals()]
+    return [fetchAPHospitals(), fetchTSHospitals(), fetchDelhiHospitals()]
 }
