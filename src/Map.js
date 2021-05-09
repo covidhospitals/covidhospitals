@@ -65,10 +65,12 @@ class CovidMap extends React.Component {
             const shareData = {
                 title: `${hospital.name}`,
                 text: 
-`Phone: ${hospital.phoneNumber}.
+`${hospital.name}.
+Phone: ${hospital.phoneNumber}.
 Address: ${hospital.location.formattedAddress}.
 Beds available:- General: ${hospital.general.available}, ICU: ${hospital.icu.available}, O2: ${hospital.o2.available}.
-Get directions: ${hospital.location.link}`,
+Get directions: ${hospital.location.link}
+More at: http://covidhospitals.online/`,
                 url: "http://covidhospitals.online/",
             }
             navigator.share(shareData).then(() => {
