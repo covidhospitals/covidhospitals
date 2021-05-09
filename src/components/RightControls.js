@@ -71,7 +71,18 @@ function SourceDialog(props) {
                         </TableHead>
                         <TableBody>
                             {
-                                dataSources.map((d, idx) => {
+                                dataSources.sort((d1, d2) => {
+                                    if (!d1.lastUpdatedAt && !d2.lastUpdatedAt) {
+                                        return d1.stateOrLocality.localeCompare(d2.stateOrLocality);
+                                    }
+                                    if (!d1.lastUpdatedAt) {
+                                        return 1
+                                    }
+                                    if (!d2.lastUpdatedAt) {
+                                        return -1
+                                    }
+                                    return new Date(d2.lastUpdatedAt) - new Date(d1.lastUpdatedAt); 
+                                }).map((d, idx) => {
                                     return (
                                         <StyledTableRow key={`ds${idx}`}>
                                             <StyledTableCell component="th" scope="row">
@@ -132,7 +143,7 @@ export default function RightControls(props) {
     const handleClose = (value) => {
         setOpen(false);
     };
-    return <div className="leaflet-top leaflet-right ">
+    return <div className="leaflet-top leaflet-left ">
         <div className="leaflet-bar leaflet-control">
             <a className="leaflet-bar-part leaflet-bar-part-single " href="https://github.com/covidhospitals/covidhospitals" target="_blank" title="Contribute and explore source code">
                 <span className="fa fa-github fa-lg"></span>

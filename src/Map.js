@@ -55,10 +55,15 @@ class CovidMap extends React.Component {
         })
     }
 
+    mapCreated(map) {
+        map.zoomControl.setPosition('bottomright');
+    }
+
     render() {
         const { center } = this.state;
         const locateOptions = {
-            position: 'topleft',
+            position: 'bottomright',
+            flyTo: true,
             strings: {
                 title: 'Show me where I am'
             },
@@ -67,7 +72,7 @@ class CovidMap extends React.Component {
 
         const { allHospitals } = this.state;
 
-        return (<MapContainer center={center} zoom={5} >
+        return (<MapContainer center={center} zoom={5} whenCreated={this.mapCreated}>
 
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'
