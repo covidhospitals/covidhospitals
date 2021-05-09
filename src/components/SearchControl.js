@@ -22,6 +22,7 @@ export default function SearchControl(props) {
             provider,
             style: 'bar',
             showMarker: true,
+            searchLabel: 'Find a place',
             marker: {
                 icon: new DivIcon({
                     html: '<i class="fa fa-map-marker fa-3x search-marker"></i>',
