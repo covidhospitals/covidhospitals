@@ -1,4 +1,4 @@
-# NOTE: THIS WEBSITE NO LONGER MAINTAINED AND HOSPITALS DATA ALSO OUTDATED. I RECOMMEND NOT TO RELAY ON THIS FOR ANY PURPOSE.
+# NOTE: HOSPITAL DATA ON THIS WEBSITE IS OUTDATED AND THIS PROJECT IS NO LONGER MAINTAINED. I RECOMMEND NOT TO RELAY ON THIS FOR ANY PURPOSE.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/58c2c8cf-de73-4dc1-8783-7fc964f6b87e/deploy-status)](https://app.netlify.com/sites/covidhospitals/deploys)
 # Covid19 Hospitals in India with beds availability on Map
